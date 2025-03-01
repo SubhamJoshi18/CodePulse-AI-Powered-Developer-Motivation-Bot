@@ -15,7 +15,7 @@ class QuestionRepo {
             },
             {
                 $project: {
-                    _id: 0,
+                    _id: 1,
                     question: 1,
                     answer: 1,
                     programmingLanguages : 1,

@@ -42,8 +42,8 @@ class CronHelper {
                 const aggregationResult = await QuestionRepo.fetchQuestionDay(payload)
                 
                 for (const data of aggregationResult) {
-                    const {question, answer , programmingLanguages,topic} = data
-                    const solveUrl = `${EXPRESS_APP_URL}/question/solve`
+                    const {question, answer , programmingLanguages,topic, _id} = data
+                    const solveUrl = `${EXPRESS_APP_URL}/question/solve/${_id}`
                     const generateHtmlContent = generateQuestionHtmlContent(question,answer,programmingLanguages,topic,solveUrl)
                     const subject = `Daily Question Puzzle`
                     const text = `Please Solve The Below Questions`
