@@ -4,11 +4,12 @@ import notifyRouter from "./notify.routes.js";
 import githubRouter from "./github.routes.js";
 import { globalErrorHandler } from "../middleware/error.middleware.js";
 import adminRouter from "./admin.routes.js";
+import questionRouter from "./question.routes.js";
 
 
 async function serverRouter(expressApp) {
     
-    expressApp.use('/api',[notifyRouter,githubRouter,adminRouter])
+    expressApp.use('/api',[notifyRouter,githubRouter,adminRouter,questionRouter])
     expressApp.use('*',(req,res) => {
         return res.status(statusCode.NOT_FOUND).json({
             message : `${req.originalUrl} Does not Exists on the System`

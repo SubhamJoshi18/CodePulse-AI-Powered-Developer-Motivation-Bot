@@ -34,6 +34,11 @@ const notifySchema = new mongoose.Schema(
             type : mongoose.Schema.Types.ObjectId,
             ref : 'AuthGithub',
             required : [true,'User is required']
+        },
+        
+        dayCount : {
+            type : Number,
+            default : 0
         }
     },
     {

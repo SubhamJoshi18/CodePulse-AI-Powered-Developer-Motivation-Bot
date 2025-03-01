@@ -29,6 +29,29 @@ class NotifyRepository {
         return updatedResult
     }
 
+    async getNotifyByUser(userId) {
+        const userDoc = await Notify.findOne({
+            user : userId
+        })
+        return userDoc
+    }
+
+    async updateNotifyDayCount(notifyId,count) {
+        const updatedResult = await Notify.updateOne(
+            {
+                _id : notifyId
+            },
+            {
+                dayCount : count
+            },
+            {
+                $new : true
+            }
+        )
+
+        return updatedResult
+    }
+
 }
 
 
