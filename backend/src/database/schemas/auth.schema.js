@@ -35,6 +35,10 @@ const authSchema = new mongoose.Schema({
         default : 'user'
     },
 
+    email : {
+        type : String,
+        required : [true,'Email is Required']
+    },
     userMood : {
         type : String,
         default : 'Idle'

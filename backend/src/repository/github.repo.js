@@ -31,6 +31,12 @@ class GithubRepo {
         )
         return savedResult
     }
+
+
+    async getAllAuthUser(){
+        const allAuthUser = await AuthGithub.find({})
+        return allAuthUser
+    }
 }
 
 export default new GithubRepo()

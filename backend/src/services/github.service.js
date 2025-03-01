@@ -25,7 +25,8 @@ class GithubService {
                 githubUsername : existsAccessToken.githubUsername,
                 userOctoId : existsAccessToken.userOctoId,
                 userRole : existsAccessToken.userRole,
-                userMood : existsAccessToken.userMood
+                userMood : existsAccessToken.userMood,
+                email : existsAccessToken.email
             }
 
             const accessToken = await createAccessToken(payloadAuth)
@@ -41,7 +42,13 @@ class GithubService {
 
 
         const { data } = await octokit.request('GET /user')
-        
+
+        const emailContent = await octokit.request('GET /user/emails')
+
+        const filteredData = emailContent.data.filter((item) => item.verified && item.primary)
+
+        const githubEmail = filteredData.map((data) => data.email).pop()
+
         const { id : githubId ,avatar_url : avatarUrl, login : githubUsername} = data
 
         const payloadAuth = {
@@ -50,7 +57,8 @@ class GithubService {
             avatarUrl,
             githubUsername,
             userRole : 'user',
-            userMood : 'Idle'
+            userMood : 'Idle',
+            email : githubEmail
         }
 
         const githubHashKey = crypto.createHmac('sha256', getGenericEnvValue('CRYPTO_SECRET_KEY')).update(githubAccessToken).digest('hex');
