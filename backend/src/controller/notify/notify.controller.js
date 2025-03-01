@@ -9,7 +9,8 @@ class NotifyController {
     async notifyUser(req,res,next){
         try{
             const content = req.body
-            const apiResponse = await NotifyService.notifyUserService(content)
+            const userOctoId = req.user.userOctoId
+            const apiResponse = await NotifyService.notifyUserService(content,userOctoId)
             const contentMessage = `The User Have been Notify Daily`
             sendApiResponse(res,apiResponse,contentMessage,statusCode.ACCEPTED);
         }catch(err){

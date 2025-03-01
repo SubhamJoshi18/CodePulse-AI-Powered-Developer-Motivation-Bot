@@ -22,6 +22,21 @@ async function createAccessToken(payload){
     })
 }
 
+
+async function verifyAccessToken (token) {
+    const secretKey = getGenericEnvValue('JWT_ACCESS_TOKEN_SECRET')
+
+    return new Promise((resolve,reject) => {
+        jwt.verify(token,secretKey,(err,decodedToken) => {
+            if(err){
+                throw err
+            }
+            resolve(decodedToken)
+        })
+    })
+}
+
 export {
-    createAccessToken
+    createAccessToken,
+    verifyAccessToken
 }

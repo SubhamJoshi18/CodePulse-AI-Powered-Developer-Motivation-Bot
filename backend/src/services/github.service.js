@@ -22,7 +22,9 @@ class GithubService {
                 githubAccessToken : existsAccessToken.githubAccessToken,
                 githubId : existsAccessToken.githubId,
                 avatarUrl : existsAccessToken.avatarUrl,
-                githubUsername : existsAccessToken.githubUsername
+                githubUsername : existsAccessToken.githubUsername,
+                userOctoId : existsAccessToken.userOctoId,
+                userRole : existsAccessToken.userRole
             }
 
             const accessToken = await createAccessToken(payloadAuth)
@@ -45,7 +47,8 @@ class GithubService {
             githubAccessToken,
             githubId,
             avatarUrl,
-            githubUsername
+            githubUsername,
+            userRole : 'user'
         }
 
         const githubHashKey = crypto.createHmac('sha256', getGenericEnvValue('CRYPTO_SECRET_KEY')).update(githubAccessToken).digest('hex');

@@ -16,9 +16,24 @@ const notifySchema = new mongoose.Schema(
             type : String,
         }],
 
+        questionCountPerData : {
+            type : Number,
+            required : [true,'Question Count is Required']
+        },
+
+        time : {
+            type : Date,
+            required : [true,'Time is Required'],
+        },
         streak : {
             type : mongoose.Schema.Types.ObjectId,
             ref : 'Streak'
+        },
+
+        user : {
+            type : mongoose.Schema.Types.ObjectId,
+            ref : 'AuthGithub',
+            required : [true,'User is required']
         }
     },
     {

@@ -20,6 +20,17 @@ class GithubRepo {
         )
         return savedResult
     }
+
+
+
+    async searchOctoId(octoId) {
+        const savedResult = await AuthGithub.findOne(
+            {
+                userOctoId : octoId
+            }
+        )
+        return savedResult
+    }
 }
 
 export default new GithubRepo()

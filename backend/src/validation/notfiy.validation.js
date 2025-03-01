@@ -7,6 +7,8 @@ const notifyCreateSchema = z.object({
         message: "Stop date must be a future date"
     }),
     topics: z.array(z.string().min(3, "Each topic must be at least 3 characters")).min(1, "At least one topic is required"),
+    questionCountPerData : z.number().min(1,'Question must be At Least 1'),
+    time : z.string()
 });
 
 

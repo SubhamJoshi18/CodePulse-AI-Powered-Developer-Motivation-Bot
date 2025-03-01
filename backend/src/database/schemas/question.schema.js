@@ -21,6 +21,16 @@ const questionSchema = new mongoose.Schema(
         answer : {
             type : String,
             default : ''
+        },
+
+        questionSolvedBy : [{
+            type : mongoose.Schema.Types.ObjectId,
+            ref : 'AuthGithub'
+        }],
+        
+        topic : {
+            type : String,
+            required : [true,'Topic is Required']
         }
     },
     {
