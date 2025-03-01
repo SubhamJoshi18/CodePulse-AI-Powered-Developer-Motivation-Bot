@@ -33,6 +33,11 @@ const authSchema = new mongoose.Schema({
         type : String,
         enum : ['admin','user'],
         default : 'user'
+    },
+
+    userMood : {
+        type : String,
+        default : 'Idle'
     }
 
 
