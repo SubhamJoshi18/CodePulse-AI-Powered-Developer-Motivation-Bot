@@ -1,15 +1,11 @@
 import { ValidationExceptions } from "../exceptions/index.js";
-import { ValidationExceptions } from "../exceptions/index.js";
 import GemimiHelper from "../helpers/gemini.helper.js"
-import { codeLogger } from "../libs/common.logger.js";
 import { codeLogger } from "../libs/common.logger.js";
 import { getGenericEnvValue } from "../utils/env.utils.js"
 import NotifyRepo from '../repository/notify.repo.js'
 import statusCode from 'http-status-codes'
 import StreakRepo from "../repository/streak.repo.js";
-import NotifyRepo from '../repository/notify.repo.js'
-import statusCode from 'http-status-codes'
-import StreakRepo from "../repository/streak.repo.js";
+
 
 
 class NotifyServices  {

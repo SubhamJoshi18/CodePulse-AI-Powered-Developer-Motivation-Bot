@@ -27,6 +27,12 @@ const authSchema = new mongoose.Schema({
     avatarUrl : {
         type : String,
         required : [true,'Avatar Url is Required']
+    },
+
+    userRole : {
+        type : String,
+        enum : ['admin','user'],
+        default : 'user'
     }
 
 
