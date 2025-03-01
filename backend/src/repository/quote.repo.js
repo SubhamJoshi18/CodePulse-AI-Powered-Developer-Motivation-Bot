@@ -16,7 +16,9 @@ class QuoteRepo {
                {
                 $project : {
                     _id : 0,
-                    quoteMessage : 1
+                    quoteMessage : 1,
+                    type : 1,
+                    mood : 1
                 }
                },
                {

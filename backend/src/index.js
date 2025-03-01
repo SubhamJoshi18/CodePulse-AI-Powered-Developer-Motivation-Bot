@@ -13,11 +13,26 @@ const cronInstance = new CronHelper()
 cron.schedule('0 19 * * *', async () => {
     try {
         codeLogger.info('Running cron job every day 7 PM  to send Questions');
-      await cronInstance.cronHandler();
+      await cronInstance.cronHandlerForQuestions();
     } catch (error) {
       codeLogger.error('Cron job failed:', error);
     }
   });
+
+
+  //'0 21 * * *
+
+
+cron.schedule('* * * * *',async () => {
+    try{
+        codeLogger.info(`Running Cron Job Every Day 9 PM to send Daily Motivational Quotes`)
+        await cronInstance.cronHandlerForQuotes()
+    }catch(err){
+        codeLogger.error(`Cron Job Failed`,err)
+    }
+})
+
+
   
 
 const startServer = async () => {

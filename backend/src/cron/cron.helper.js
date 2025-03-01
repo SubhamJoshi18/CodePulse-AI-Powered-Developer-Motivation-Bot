@@ -3,9 +3,10 @@ import GithubRepo from "../repository/github.repo.js"
 import NotifyRepo from "../repository/notify.repo.js"
 import EmailHelper from '../helpers/smtp.helper.js'
 import QuestionRepo from "../repository/question.repo.js"
-import { generateQuestionHtmlContent } from "../constants/email.constant.js"
+import { generateQuestionHtmlContent, generateQuoteEmailContent } from "../constants/email.constant.js"
 import { EXPRESS_APP_URL } from "../constants/module.constant.js"
 import { codeLogger } from "../libs/common.logger.js"
+import QuoteRepo from "../repository/quote.repo.js"
  
 
 class CronHelper {
@@ -18,7 +19,7 @@ class CronHelper {
   
 
 
-    async cronHandler() {
+    async cronHandlerForQuestions() {
 
         const allUsers = await GithubRepo.getAllAuthUser()
 
@@ -55,6 +56,50 @@ class CronHelper {
 
         }
 
+    }
+
+
+    async cronHandlerForQuotes() {
+        const allUsers  = await GithubRepo.getAllAuthUser()
+        const allAuthEmailIds = allUsers.map((item) => {return {id : item._id,email : item.email, mood : item.userMood}})
+
+        if(Array.isArray(allAuthEmailIds) && allAuthEmailIds.length > 0) {
+
+            for(const user of allAuthEmailIds) {
+
+                const userId = user.id
+
+                const userMood = user.mood
+
+                const userEmail = user.email
+
+                const notifyDocuments = await NotifyRepo.getNotifyByUser(userId._id)
+
+                if(!notifyDocuments) continue;
+
+                const userProgrammingLanguage = {
+                    type : notifyDocuments.language
+                }
+
+
+                const payload = {
+                    mood : userMood,
+                    language : userProgrammingLanguage['type']
+                }
+
+                const quoteResult = (await QuoteRepo.getQuoteBasedOnMood(payload)).pop()
+
+                const { quoteMessage , type , mood } = quoteResult
+
+                const generatedHtmlContent = generateQuoteEmailContent(quoteMessage,payload['language'],mood)
+                const subject = `Daily Quote of the Day`
+                const text = `Quote is Based on ${type.programmingLanguage}`
+                await this.emailHelper.sendEmail(userEmail,subject,text,generatedHtmlContent)
+
+                codeLogger.info(`Daily Quotes Have Been Sended to the ${userEmail}`)
+            }
+
+        }
     }
 
 

@@ -1,6 +1,7 @@
 import nodemailer from 'nodemailer'
 import dotenv from 'dotenv'
 import { getGenericEnvValue } from '../utils/env.utils.js';
+import { codeLogger } from '../libs/common.logger.js';
 dotenv.config()
 
 
@@ -21,7 +22,7 @@ class EmailHelper {
         
           let methodOptions = {
             from: {
-              name: "Pet Aid",
+              name: "Code Pluse",
               address: getGenericEnvValue('APP_EMAIL'),
             },
             to,
@@ -33,10 +34,10 @@ class EmailHelper {
           return transporter
             .sendMail(methodOptions)
             .then((res) => {
-             petAidLogger.info(res)
+             codeLogger.info(res)
             })
             .catch((err) => {
-              petAidLogger.error(err)
+              codeLogger.error(err)
             });
     }
 
