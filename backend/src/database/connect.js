@@ -11,7 +11,7 @@ async function connectToAtlasMongo(){
 
     while(retryCount > 0 && retryStatus) {
         try{
-            const mongoUrl = getGenericEnvValue('LOCAL_MONGO_URL')
+            const mongoUrl = getGenericEnvValue('MONGO_URL')
             const mongoClient = await mongoose.connect(mongoUrl)
             return mongoClient
         }catch(err){

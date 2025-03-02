@@ -16,6 +16,9 @@ class GithubService {
         })
 
         const existsAccessToken = await GithubRepo.searchAccessToken(githubAccessToken)
+
+        const getAllUser = await GithubRepo.getAllAuthUser()
+
         
         if(existsAccessToken)  {
        
@@ -51,12 +54,14 @@ class GithubService {
 
         const { id : githubId ,avatar_url : avatarUrl, login : githubUsername} = data
 
+        const isEmptyDoc = Array.isArray(getAllUser) && getAllUser.length === 0
+
         const payloadAuth = {
             githubAccessToken,
             githubId,
             avatarUrl,
             githubUsername,
-            userRole : 'user',
+            userRole :  isEmptyDoc ? 'admin' : 'user',
             userMood : 'Idle',
             email : githubEmail
         }
