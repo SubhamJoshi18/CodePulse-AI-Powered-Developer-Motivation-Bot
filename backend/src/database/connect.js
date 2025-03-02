@@ -3,6 +3,7 @@ import statusCode from 'http-status-codes'
 import { codeLogger } from '../libs/common.logger.js'  
 import { DatabaseExceptions } from '../exceptions/index.js'
 import { getGenericEnvValue } from '../utils/env.utils.js'
+import { getEnvValue } from '../config/env.config.js'
 
 
 async function connectToAtlasMongo(){
@@ -11,7 +12,7 @@ async function connectToAtlasMongo(){
 
     while(retryCount > 0 && retryStatus) {
         try{
-            const mongoUrl = getGenericEnvValue('MONGO_URL')
+            const mongoUrl = getEnvValue('MONGO_URL')
             codeLogger.info(`Env Value : ${mongoUrl}`)
             const mongoClient = await mongoose.connect(mongoUrl)
             return mongoClient

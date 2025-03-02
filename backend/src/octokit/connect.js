@@ -1,9 +1,10 @@
 import {Octokit} from '@octokit/rest'
 import { getGenericEnvValue } from '../utils/env.utils.js'
+import { getEnvValue } from '../config/env.config.js'
 
 
 const octokit = new Octokit({
-    auth :  getGenericEnvValue('GITHUB_TOKEN')
+    auth :  getEnvValue('GITHUB_TOKEN')
 })
 
 

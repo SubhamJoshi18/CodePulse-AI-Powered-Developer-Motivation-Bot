@@ -3,6 +3,7 @@ import { createAccessToken } from "../helpers/jsonwebtoken.helper.js"
 import crypto from 'node:crypto'
 import { getGenericEnvValue } from "../utils/env.utils.js"
 import GithubRepo from "../repository/github.repo.js"
+import { getEnvValue } from "../config/env.config.js"
 
 class GithubService {
 
@@ -66,7 +67,7 @@ class GithubService {
             email : githubEmail
         }
 
-        const githubHashKey = crypto.createHmac('sha256', getGenericEnvValue('CRYPTO_SECRET_KEY')).update(githubAccessToken).digest('hex');
+        const githubHashKey = crypto.createHmac('sha256', getEnvValue('CRYPTO_SECRET_KEY')).update(githubAccessToken).digest('hex');
 
         const octoIdInPayload = 'userOctoId' in payloadAuth
 

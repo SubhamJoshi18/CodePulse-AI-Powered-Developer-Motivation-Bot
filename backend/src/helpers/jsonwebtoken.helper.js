@@ -1,3 +1,4 @@
+import { getEnvValue } from "../config/env.config.js"
 import { getGenericEnvValue } from "../utils/env.utils.js"
 import jwt from 'jsonwebtoken'
 
@@ -8,7 +9,7 @@ async function createAccessToken(payload){
         expiresIn : '1h'
     }
 
-    const secretKey = getGenericEnvValue('JWT_ACCESS_TOKEN_SECRET')
+    const secretKey = getEnvValue('JWT_ACCESS_TOKEN_SECRET')
 
     return new Promise((resolve,reject) => {
 
@@ -24,7 +25,7 @@ async function createAccessToken(payload){
 
 
 async function verifyAccessToken (token) {
-    const secretKey = getGenericEnvValue('JWT_ACCESS_TOKEN_SECRET')
+    const secretKey = getEnvValue('JWT_ACCESS_TOKEN_SECRET')
 
     return new Promise((resolve,reject) => {
         jwt.verify(token,secretKey,(err,decodedToken) => {

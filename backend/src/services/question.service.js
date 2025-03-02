@@ -5,12 +5,13 @@ import statusCode from 'http-status-codes'
 import QuestionRepo from "../repository/question.repo.js"
 import GemimiHelper from "../helpers/gemini.helper.js"
 import { getGenericEnvValue } from "../utils/env.utils.js"
+import { getEnvValue } from "../config/env.config.js"
 
 
 class QuestionService {
 
     constructor(){
-        this.geminiHelper = new GemimiHelper(getGenericEnvValue('GOOGLE_API_KEY'))
+        this.geminiHelper = new GemimiHelper(getEnvValue('GOOGLE_API_KEY'))
     }
 
 

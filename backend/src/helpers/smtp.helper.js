@@ -2,6 +2,7 @@ import nodemailer from 'nodemailer'
 import dotenv from 'dotenv'
 import { getGenericEnvValue } from '../utils/env.utils.js';
 import { codeLogger } from '../libs/common.logger.js';
+import { getEnvValue } from '../config/env.config.js';
 dotenv.config()
 
 
@@ -15,15 +16,15 @@ class EmailHelper {
             port: 456,
             secure: true,
             auth: {
-              user:  getGenericEnvValue('APP_EMAIL'),
-              pass:  getGenericEnvValue('APP_PASSWORD')
+              user:  getEnvValue('APP_EMAIL'),
+              pass:  getEnvValue('APP_PASSWORD')
             },
           });
         
           let methodOptions = {
             from: {
               name: "Code Pluse",
-              address: getGenericEnvValue('APP_EMAIL'),
+              address: getEnvValue('APP_EMAIL'),
             },
             to,
             subject,

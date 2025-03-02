@@ -10,6 +10,7 @@ import QuoteRepo from "../repository/quote.repo.js"
 import GemimiHelper from "../helpers/gemini.helper.js"
 import { isGenAiEnabled } from "../constants/gemini.constant.js"
 import { getGenericEnvValue } from "../utils/env.utils.js"
+import { getEnvValue } from "../config/env.config.js"
  
 
 class CronHelper {
@@ -17,7 +18,7 @@ class CronHelper {
 
     constructor(){
         this.emailHelper = new EmailHelper()
-        this.geminiHelper = new GemimiHelper(getGenericEnvValue('GOOGLE_API_KEY'))
+        this.geminiHelper = new GemimiHelper(getEnvValue('GOOGLE_API_KEY'))
     }
 
   

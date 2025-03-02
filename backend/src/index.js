@@ -4,8 +4,9 @@ import cron from 'node-cron'
 import { getGenericEnvValue } from "./utils/env.utils.js";
 import CronHelper from './cron/cron.helper.js';
 import { codeLogger } from './libs/common.logger.js';
+import { getEnvValue } from './config/env.config.js';
 
-const port = getGenericEnvValue('PORT') ?? 3000
+const port = getEnvValue('PORT') ?? 3000
 const app = express()
 const cronInstance = new CronHelper()
 

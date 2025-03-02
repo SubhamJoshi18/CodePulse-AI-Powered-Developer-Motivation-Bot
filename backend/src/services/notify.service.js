@@ -6,13 +6,14 @@ import NotifyRepo from '../repository/notify.repo.js'
 import statusCode from 'http-status-codes'
 import StreakRepo from "../repository/streak.repo.js";
 import GithubRepo from "../repository/github.repo.js";
+import { getEnvValue } from "../config/env.config.js";
 
 
 
 class NotifyServices  {
 
     constructor(){
-        this.model = new GemimiHelper(getGenericEnvValue('GOOGLE_API_KEY'))
+        this.model = new GemimiHelper(getEnvValue('GOOGLE_API_KEY'))
     }
 
     async notifyUserService(payload,userOctoId){
