@@ -7,6 +7,9 @@ import { generateQuestionHtmlContent, generateQuoteEmailContent } from "../const
 import { EXPRESS_APP_URL } from "../constants/module.constant.js"
 import { codeLogger } from "../libs/common.logger.js"
 import QuoteRepo from "../repository/quote.repo.js"
+import GemimiHelper from "../helpers/gemini.helper.js"
+import { isGenAiEnabled } from "../constants/gemini.constant.js"
+import { getGenericEnvValue } from "../utils/env.utils.js"
  
 
 class CronHelper {
@@ -14,6 +17,7 @@ class CronHelper {
 
     constructor(){
         this.emailHelper = new EmailHelper()
+        this.geminiHelper = new GemimiHelper(getGenericEnvValue('GOOGLE_API_KEY'))
     }
 
   
@@ -60,6 +64,7 @@ class CronHelper {
 
 
     async cronHandlerForQuotes() {
+      
         const allUsers  = await GithubRepo.getAllAuthUser()
         const allAuthEmailIds = allUsers.map((item) => {return {id : item._id,email : item.email, mood : item.userMood}})
 
@@ -87,16 +92,40 @@ class CronHelper {
                     language : userProgrammingLanguage['type']
                 }
 
-                const quoteResult = (await QuoteRepo.getQuoteBasedOnMood(payload)).pop()
+                if(!isGenAiEnabled) {
+                  const quoteResult = (await QuoteRepo.getQuoteBasedOnMood(payload)).pop()
 
-                const { quoteMessage , type , mood } = quoteResult
+                  const { quoteMessage , type , mood } = quoteResult
 
-                const generatedHtmlContent = generateQuoteEmailContent(quoteMessage,payload['language'],mood)
-                const subject = `Daily Quote of the Day`
-                const text = `Quote is Based on ${type.programmingLanguage}`
-                await this.emailHelper.sendEmail(userEmail,subject,text,generatedHtmlContent)
+                    const generatedHtmlContent = generateQuoteEmailContent(quoteMessage,payload['language'],mood)
+                    const subject = `Daily Quote of the Day`
+                    const text = `Quote is Based on ${type.programmingLanguage}`
+                    await this.emailHelper.sendEmail(userEmail,subject,text,generatedHtmlContent)
 
-                codeLogger.info(`Daily Quotes Have Been Sended to the ${userEmail}`)
+                    codeLogger.info(`Daily Quotes Have Been Sended to the ${userEmail}`)
+               
+                }else{
+
+                    const { data : quoteMessage} = await this.geminiHelper.generateQuoteBasedOnLanguage(payload['language'],payload['mood'])
+                    
+                    const quoteResult = {
+                        quoteMessage,
+                        type : payload['language'],
+                        mood : payload['mood']
+                    }
+
+                    const { quoteMessage : message , type , mood } = quoteResult
+
+                    const generatedHtmlContent = generateQuoteEmailContent(message,payload['language'],payload['mood'])
+                    const subject = `Daily Quote of the Day`
+                    const text = `Quote is Based on ${payload['language']}`
+                    await this.emailHelper.sendEmail(userEmail,subject,text,generatedHtmlContent)
+
+                    codeLogger.info(`Daily Quotes Have Been Sended to the ${userEmail}`)
+
+
+                }
+                     
             }
 
         }

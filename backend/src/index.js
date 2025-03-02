@@ -10,22 +10,21 @@ const app = express()
 const cronInstance = new CronHelper()
 
 
-cron.schedule('0 19 * * *', async () => {
-    try {
-        codeLogger.info('Running cron job every day 7 PM  to send Questions');
-      await cronInstance.cronHandlerForQuestions();
-    } catch (error) {
-      codeLogger.error('Cron job failed:', error);
-    }
-  });
+// cron.schedule('0 19 * * *', async () => {
+//     try {
+//         codeLogger.info('Running cron job every day 7 PM  to send Questions');
+//       await cronInstance.cronHandlerForQuestions();
+//     } catch (error) {
+//       codeLogger.error('Cron job failed:', error);
+//     }
+//   });
 
 
-  //'0 21 * * *
 
 
-cron.schedule('* * * * *',async () => {
+cron.schedule('0 19 * * *',async () => {
     try{
-        codeLogger.info(`Running Cron Job Every Day 9 PM to send Daily Motivational Quotes`)
+        codeLogger.info(`Running Cron Job Every Day 7 PM to send Daily Motivational Quotes`)
         await cronInstance.cronHandlerForQuotes()
     }catch(err){
         codeLogger.error(`Cron Job Failed`,err)

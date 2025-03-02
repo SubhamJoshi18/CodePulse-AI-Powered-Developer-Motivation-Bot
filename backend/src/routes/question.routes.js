@@ -6,4 +6,5 @@ const questionRouter = Router()
 
 questionRouter.get('/questions',verifyOctoToken,QuestionController.getUserQuestion)
 
+
 export default questionRouter

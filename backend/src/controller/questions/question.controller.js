@@ -5,8 +5,6 @@ import statusCode from 'http-status-codes'
 
 class QuestionController {
 
-
-
     async getUserQuestion(req,res,next) {
         try{
             const userOctoId = req.user.userOctoId
@@ -17,8 +15,6 @@ class QuestionController {
             next(err)
         }
     }
-
-
 
 }
 

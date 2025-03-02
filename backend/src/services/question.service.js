@@ -3,9 +3,15 @@ import GithubRepo from "../repository/github.repo.js"
 import NotifyRepo from "../repository/notify.repo.js"
 import statusCode from 'http-status-codes'
 import QuestionRepo from "../repository/question.repo.js"
+import GemimiHelper from "../helpers/gemini.helper.js"
+import { getGenericEnvValue } from "../utils/env.utils.js"
 
 
 class QuestionService {
+
+    constructor(){
+        this.geminiHelper = new GemimiHelper(getGenericEnvValue('GOOGLE_API_KEY'))
+    }
 
 
     async getQuestionService(userOctoId){
@@ -44,6 +50,35 @@ class QuestionService {
             questions : Array.from(new Set(aggregationResult))
         }
     }
+
+
+    async getQuestionGenAiService(octoId){
+
+        const githubDoc = await GithubRepo.searchOctoId(octoId)
+
+        if(!githubDoc) throw new DatabaseExceptions(`The Github Credential Does not Exists on the System`,statusCode.BAD_GATEWAY);
+
+        const extractedOctId = githubDoc._id
+
+        const userNotifyDocs = await NotifyRepo.getNotifyByUser(extractedOctId)
+
+        if(!userNotifyDocs)  throw new DatabaseExceptions(`The User Notification Credential Does not Exists on the System`,statusCode.BAD_GATEWAY);
+
+        const payload = {
+            language : userNotifyDocs.language,
+            topics : userNotifyDocs.topics,
+            questionCount  : userNotifyDocs.questionCountPerData
+        }
+
+        const {language , topics , questionCount } = payload
+
+        const responseGenAi = await this.geminiHelper.generateQuestionBasedOnLanguage(language,topics)
+        
+        return responseGenAi
+    }   
+
+
+
 }
 
 export default new QuestionService()

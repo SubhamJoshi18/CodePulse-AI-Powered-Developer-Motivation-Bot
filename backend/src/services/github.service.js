@@ -8,6 +8,7 @@ class GithubService {
 
     
     async loginAsGithubService(payload){
+        
         const { githubAccessToken } = payload
 
         const octokit = new Octokit({
@@ -39,7 +40,6 @@ class GithubService {
 
 
         }
-
 
         const { data } = await octokit.request('GET /user')
 
